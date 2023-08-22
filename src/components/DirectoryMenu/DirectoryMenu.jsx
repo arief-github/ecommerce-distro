@@ -7,7 +7,7 @@ export const DirectoryMenu = () => {
         <div className="directory-menu">
             {
                 homepageData.map(({ title, id , imageSrc, size }) => (
-                    <MenuItem title={title} id={id} imageUrl={imageSrc} size={size} />
+                    <MenuItem key={id} title={title} id={id} imageUrl={imageSrc} size={size} />
                 ))
             }
         </div>
