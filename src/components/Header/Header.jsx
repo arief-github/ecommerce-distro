@@ -10,6 +10,10 @@ const routeData = [
     {
         name: "CONTACT",
         url: "/shop"
+    },
+    {
+        name: "SIGN IN",
+        url: "/shop/signin"
     }
 ];
 
