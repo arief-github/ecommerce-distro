@@ -1,49 +1,41 @@
-import {Link} from "react-router-dom";
 import './SignInPage.styles.scss';
-import {FormInput} from "../../components/FormInput/FormInput";
 import {useState} from "react";
-import {CustomButton} from "../../components/CustomButton/CustomButton";
+import {FormSignIn} from "../../components/Form/FormSignIn";
 
 export const SignInPage = () => {
-    const [value, setValue] = useState({
-        email: "",
-        password: ""
-    });
+    const [formFields, setFormFields] = useState({});
+    const [errors, setErrors] = useState({});
+    const [valid, setValid] = useState();
 
-    const handleChange = (event) => {
-        setValue({
-            ...value,
-            [event.target.name]: event.target.value
-        });
+    const onSubmit = (value) => {
+        alert(`Submit Value : ${JSON.stringify(value, null, 2)}`)
     }
 
     return (
         <div className="sign-in">
             Sign In Page
-            <form>
-                <FormInput
-                    name="email"
-                    type="email"
-                    label="Email"
-                    value={value.email}
-                    onChange={handleChange}
-                />
-                <FormInput
-                    name="password"
-                    type="password"
-                    label="Password"
-                    value={value.password}
-                    onChange={handleChange}
-                />
-            </form>
-            <div className="buttons">
-                <CustomButton type="submit" centered>Sign In</CustomButton>
-                <CustomButton isGoogleSignIn>
-                    Sign in with Google
-                </CustomButton>
-            </div>
 
-            Don't have an account ? <Link to="/shop/signup">Create an account</Link>
+            <FormSignIn
+                onChange={(ff, v, e) => {
+                    setFormFields(ff)
+                    setValid(v)
+                    setErrors(e)
+                }}
+                onSubmit={onSubmit}
+            />
         </div>
     )
 }
+
+// const ShowData = ({ formFields, valid, errors }) => (
+//     <div className="ShowData">
+//         <dl>
+//             <dt>Current value:</dt>
+//             <dd>{JSON.stringify(formFields, null, 2)}</dd>
+//             <dt>Valid?</dt>
+//             <dd>{JSON.stringify(valid)}</dd>
+//             <dt>Errors?</dt>
+//             <dd>{JSON.stringify(errors, null, 2)}</dd>
+//         </dl>
+//     </div>
+// )
