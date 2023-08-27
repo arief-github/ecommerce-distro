@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {CustomButton} from "../CustomButton/CustomButton.jsx";
 import {Link} from "react-router-dom";
 
-export const FormSignIn = ({onSubmit, onChange, initialValue = {}}) => {
+export const FormSignIn = ({onSubmit, onChange, initialValue = {}, signInWithGoogle}) => {
     const [formFields, setFormFields] = useState(initialValue);
     const [valid, setValid] = useState(true);
     const [errors, setErrors] = useState({});
@@ -39,7 +39,7 @@ export const FormSignIn = ({onSubmit, onChange, initialValue = {}}) => {
             <div className="buttons">
                 <CustomButton type="submit" centered onClick={() => onSubmit && onSubmit(formFields)} disabled={!valid}>Sign
                     In</CustomButton>
-                <CustomButton isGoogleSignIn>
+                <CustomButton onClick={() => { signInWithGoogle() }} isGoogleSignIn>
                     Sign in with Google
                 </CustomButton>
             </div>
