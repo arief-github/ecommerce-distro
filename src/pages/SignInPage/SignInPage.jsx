@@ -1,19 +1,21 @@
 import './SignInPage.styles.scss';
 import {useState} from "react";
 import {FormSignIn} from "../../components/Form/FormSignIn";
-import {signInWithGoogle} from "../../firebase/firebase.utils.js";
+import {auth, signInWithGoogle} from "../../firebase/firebase.utils.js";
 
 export const SignInPage = () => {
     const [formFields, setFormFields] = useState({});
     const [errors, setErrors] = useState({});
     const [valid, setValid] = useState();
 
-    const onSubmit = (value) => {
-        if (!value) {
-            alert(errors)
-        }
+    const onSubmit = async (value) => {
+        const { email, password } = value
 
-        alert(`Submit Value : ${JSON.stringify(value, null, 2)}`)
+        try {
+            await auth.signInWithEmailAndPassword(email, password)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -22,7 +24,6 @@ export const SignInPage = () => {
 
             <form onSubmit={(e) => e.preventDefault()}>
                 <FormSignIn
-                    className
                     onChange={(ff, v, e) => {
                         setFormFields(ff)
                         setValid(v)

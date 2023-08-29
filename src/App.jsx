@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { auth } from './firebase/firebase.utils.js'
+import {useState, useEffect} from 'react'
+import {auth, createUserProfileDocument} from './firebase/firebase.utils.js'
 import Homepage from "./pages/Homepage/Homepage.jsx";
 import ShopPage from "./pages/ShopPage/ShopPage.jsx";
 import './styles/App.css'
@@ -10,6 +10,28 @@ import {SignUpPage} from "./pages/SignUpPage/SignUpPage.jsx";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(null);
+    let unsubscribeFromAuth = null;
+
+    useEffect(() => {
+        unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+            if (userAuth) {
+                const userRef = await createUserProfileDocument(userAuth);
+
+                userRef.onSnapshot(snapshot => {
+                    setCurrentUser({
+                        id: snapshot.id,
+                        ...snapshot.data()
+                    })
+                })
+            }
+
+            setCurrentUser(userAuth)
+
+            return () => {
+                unsubscribeFromAuth()
+            }
+        })
+    }, [unsubscribeFromAuth])
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -25,8 +47,8 @@ function App() {
             <Switch>
                 <Route exact path="/" component={Homepage}/>
                 <Route exact path="/shop" component={ShopPage}/>
-                <Route path="/shop/signin" component={SignInPage} />
-                <Route path="/shop/signup" component={SignUpPage} />
+                <Route path="/shop/signin" component={SignInPage}/>
+                <Route path="/shop/signup" component={SignUpPage}/>
             </Switch>
         </>
 
