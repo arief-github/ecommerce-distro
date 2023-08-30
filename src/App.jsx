@@ -7,6 +7,7 @@ import {Route, Switch} from "react-router-dom";
 import {Header} from "./components/Header/Header";
 import {SignInPage} from "./pages/SignInPage/SignInPage.jsx";
 import {SignUpPage} from "./pages/SignUpPage/SignUpPage.jsx";
+import Redirect from "react-router-dom/es/Redirect";
 
 function App() {
     const [currentUser, setCurrentUser] = useState(null);
@@ -47,8 +48,8 @@ function App() {
             <Switch>
                 <Route exact path="/" component={Homepage}/>
                 <Route exact path="/shop" component={ShopPage}/>
-                <Route path="/shop/signin" component={SignInPage}/>
-                <Route path="/shop/signup" component={SignUpPage}/>
+                <Route path="/shop/signin" render={() => currentUser ? (<Redirect to="/"/>) : <SignInPage/>}/>
+                <Route path="/shop/signup" render={() => currentUser ? (<Redirect to="/"/>) : <SignUpPage/>}/>
             </Switch>
         </>
 
